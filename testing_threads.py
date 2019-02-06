@@ -54,7 +54,7 @@ class CoreGUI(object):
     def test1(self):
         global submit_thread
         submit_thread = threading.Thread(target=start)
-        submit_thread.daemon = True
+        submit_thread.daemon = False
         submit_thread.start()
         self.refresh()
 
