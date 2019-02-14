@@ -8,6 +8,7 @@ SIZE = 800
 R = int(SIZE / 2)
 CENTER = (R, R)
 STARTTIME = time.time()
+NUM_LOOPS = 1000
 
 img = np.zeros((SIZE, SIZE, 3), dtype=np.uint8)
 
@@ -25,7 +26,7 @@ def dist_center(x, y):
 
 
 def diff_pi(pi):
-    return abs(float((pi - math.pi)))
+    return abs(float(pi - math.pi))
 
 
 # Draw the circle
@@ -39,17 +40,18 @@ total = 0
 record_pi = 3.1
 
 while True:
-    for i in range(500):
+    loop_time = time.time()
+    for i in range(NUM_LOOPS):
         total += 1
         x = random.randint(0, SIZE - 1)
         y = random.randint(0, SIZE - 1)
         if dist_center(x, y) < R:
-            img[x][y] = (75, 255, 75)
+            img[x][y] = (50, 255, 50)
             in_circle += 1
         else:
-            img[x][y] = (255, 75, 75)
+            img[x][y] = (255, 50, 50)
 
-    cv2.imshow('Aproximate PI', img)
+    cv2.imshow('Aproximate PI - Press <ESC> to quit.', img)
     k = cv2.waitKey(10)
     if k == 27:
         break
@@ -79,7 +81,9 @@ while True:
     endtime %= 60
     seconds = int(endtime)
     time_str = str(hour) + ":" + str(minutes) + ":" + str(seconds)
-    print(f"{hour}:{minutes}:{seconds}: Current: {pi}\t Best: {record_pi}")
+    loop_time = time.time() - loop_time
+    speed = int(NUM_LOOPS / loop_time)
+    print(f"{hour}:{minutes}:{seconds}: Current: {pi}\t Best: {record_pi}\t Speed: {speed}l/s")
 
 
 cv2.destroyAllWindows()
